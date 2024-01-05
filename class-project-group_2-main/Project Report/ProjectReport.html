@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Zehaan Naik, Sneha Gupta, Sarbojit Das, Swapnonil Mondal">
+
+<title>Anime Alchemy</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="ProjectReport_files/libs/clipboard/clipboard.min.js"></script>
+<script src="ProjectReport_files/libs/quarto-html/quarto.js"></script>
+<script src="ProjectReport_files/libs/quarto-html/popper.min.js"></script>
+<script src="ProjectReport_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="ProjectReport_files/libs/quarto-html/anchor.min.js"></script>
+<link href="ProjectReport_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="ProjectReport_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="ProjectReport_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="ProjectReport_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="ProjectReport_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Anime Alchemy</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Zehaan Naik, Sneha Gupta, Sarbojit Das, Swapnonil Mondal </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>The term “Anime” refers to all animated motion pictures that are produced in Japan. This is a booming industry with an ever-increasing audience and rising popularity. Naturally, this becomes an excellent opportunity for studios to make massive profits and an exciting field for one to study.</p>
+<p>Anime Alchemy is a data visualization app that helps you analyze and compare the performance of various Anime series with several variables that define them. This application aims to help producers develop the best broadcasting and advertising model to ensure the success of their new program.</p>
+<p>However, before diving into the application, we should first understand and explore the data set.</p>
+</section>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<p>The data set we will be using for our analysis comprises the top 1000 Anime shows on the website <a href="https://myanimelist.net/topanime.php">MyAnimeList</a>. We shall talk more about scrapping the data set in a later section.</p>
+<p>As mentioned, the data set comprises 1000 observations described using 38 variables. We can divide these variables broadly into two categories: numerical and categorical.</p>
+<section id="numerical-variables" class="level5">
+<h5 class="anchored" data-anchor-id="numerical-variables">Numerical Variables:</h5>
+<p>These are the columns of our data set that have numerical values associated with them—for example, rating, number of likes, active viewers, etc.</p>
+<p>These variables help us mathematically analyze the performance of several substrata of data points. Here is a brief description of all the columns that we have used in our analysis:</p>
+<ol type="1">
+<li><u><strong>Rating (Score):</strong></u></li>
+</ol>
+<p>This is the average rating given to the show by everyone who rated the show. An important thing to note is that a high rating need not imply a more extensive audience size or popularity. The reason is that ten people can rate one show to be 9/10. However, another show might be rated by 100 people with a rating of 8.5. As a producer, you might favor the latter over the former.</p>
+<ol start="2" type="1">
+<li><u><strong>Number of Votes:</strong></u></li>
+</ol>
+<p>This is the number of votes the show received on the website in a poll where users were asked about their top 10 favorite anime shows.</p>
+<ol start="3" type="1">
+<li><u><strong>Number of Favorites:</strong></u></li>
+</ol>
+<p>This is the number of users who have marked a particular show as one of their favorites on the website.</p>
+<ol start="4" type="1">
+<li><u><strong>Number of Active Viewers:</strong></u></li>
+</ol>
+<p>The number of people have watched over ten episodes of one particular show. Note that it is essential to distinguish between a viewer who has simply watched a single episode of a show and one who continuously watches the show. As a producer, we are primarily interested in the latter category predominantly.</p>
+<ol start="5" type="1">
+<li><u><strong>Number of Episodes:</strong></u></li>
+</ol>
+<p>The number of episodes per season for a particular show.</p>
+<ol start="6" type="1">
+<li><u><strong>Duration Per Episode:</strong></u></li>
+</ol>
+<p>The average duration per episode for the show.</p>
+<p>(NOTE: Variables 5 and 6 are often used as grouping variables to analyze what range of episode number and duration sits well with a particular target audience.)</p>
+<ol start="7" type="1">
+<li><u><strong>Color Composition:</strong></u></li>
+</ol>
+<p>We analyzed the posters for all the shows and studied the color composition of all the posters regarding their percentage RGB composition. We stored these values in separate columns to use as both grouping parameters and analysis parameters to explore various questions of possible co-relations between poster color composition and other parameters.</p>
+</section>
+<section id="categorical-variables" class="level5">
+<h5 class="anchored" data-anchor-id="categorical-variables">Categorical Variables:</h5>
+<p>These columns of our data set have non-numerical values such as names, seasons, origins, etc. We’ve used these values as grouping parameters to subset our data and observe various trends that emerge in such observations. Here is a brief description of all the groups that we have used:</p>
+<ol type="1">
+<li><u><strong>Source:</strong></u></li>
+</ol>
+<p>Every anime has a source from which it is inspired. For example, we have “One Piece” inspired by Manga. Similarly, other sources may include games and comics; some might be original works.</p>
+<ol start="2" type="1">
+<li><u><strong>Genre:</strong></u></li>
+</ol>
+<p>The genre of the show. It has categories like action, adventure, drama and comedy.</p>
+<ol start="3" type="1">
+<li><u><strong>Season of Premier:</strong></u></li>
+</ol>
+<p>What season of the year was the anime premiered in? For example, it is a common understanding that shows meant for children perform better when released in summer. This is because many children are eager to consume TV content during their vacations.</p>
+<ol start="4" type="1">
+<li><u><strong>Day of Telecast:</strong></u></li>
+</ol>
+<p>The day of the week on which the show is telecasted.</p>
+<ol start="5" type="1">
+<li><u><strong>Target Demographic:</strong></u></li>
+</ol>
+<p>The age section of the audience that the show is aimed at. For example, an anime series like “Shin-chan” is targeted toward a younger audience than compared to a series like “Full Metal Alchemist.”</p>
+<ol start="6" type="1">
+<li><u><strong>Censorboard Rating:</strong></u></li>
+</ol>
+<p>The age group that the censor board of Japan deems the show safe for.</p>
+</section>
+</section>
+<section id="obtaining-data" class="level2">
+<h2 class="anchored" data-anchor-id="obtaining-data">Obtaining Data</h2>
+<p>The data is scrapped from the website<a href="https://myanimelist.net/topanime.php">MyAnimeList</a>.</p>
+<p>The essential steps in our data preparation and cleaning are as follows:</p>
+<ul>
+<li><p>The <code>rvest</code> and <code>tidyverse</code> libraries contain the scrapping functions, so they were first called at the beginning of writing the code. The <code>stringr</code> library came to our rescue as it helped remove any extra white spaces into a single white space.</p></li>
+<li><p>With the help of running loops in <code>R</code>, we iterated to multiple sub-web pages of the website by changing the limits to an increment of 50. Multiple website links were stored in a vector named <code>links</code>, and additional essential elements were extracted.</p></li>
+<li><p>To store the essential data elements required for data analysis, we had to name many dummy variables and iterate them over loops of the sub-web pages, thereby replacing their garbage value with the scrapped information from the website. Helpful functions such as <code>gsub</code>, <code>grepl</code>, <code>sapply</code>, <code>substring</code>, <code>paste</code>, <code>strsplit</code>, <code>str_squish</code>, and <code>trimws</code> made our data-scrapping task less challenging.</p>
+<ol type="1">
+<li><p><strong><code>gsub</code></strong> function replaced all occurrences of patterns in character vectors with pre-specified replacements.</p></li>
+<li><p><strong><code>grepl</code></strong> function checked for the presence of patterns in character vectors. It returned a logical vector indicating patterns in each element.s</p></li>
+<li><p><strong><code>sapply</code></strong> function was applied to a function to each element of a list or vector and simplified the result.</p></li>
+<li><p><strong><code>substring</code></strong> function was used to extract or replace sub-strings from a character vector.</p></li>
+<li><p><strong><code>paste</code></strong> function was used to concatenate multiple strings into a single string.</p></li>
+<li><p><strong><code>strsplit</code></strong> function was used to split a character string into sub-strings based on a specified delimiter.</p></li>
+<li><p><strong><code>str_squish</code></strong> function removed leading, trailing, and repeated white space characters from a character vector.</p></li>
+<li><p><strong><code>trimws</code></strong> function was used to remove leading and trailing white-spaces (including spaces, tabs, and newlines) from character strings.</p></li>
+</ol></li>
+<li><p>The data columns were converted to their correct types. For example, numeric real-valued data was converted to numeric type.</p></li>
+<li><p>Many incorrect entries in columns related to theme, demography, and genre with the format “ExampleExample” were converted into “Example”.</p></li>
+<li><p>To calculate the airing duration between anime shows, <code>difftime</code> function was used. The i<sub>th</sub> element of paired columns was imputed in its function parameter with the difference unit in week rounded up to 2 decimal places.</p></li>
+<li><p>We changed the value “None found, add some” to <strong>NA</strong> in the Licensor column.</p></li>
+</ul>
+<p>Finally, with the help of the <code>data.frame</code> function, all the scrapped columns were bound horizontally and stored in an <em>anime_df</em> variable.</p>
+</section>
+<section id="biases-in-our-data" class="level2">
+<h2 class="anchored" data-anchor-id="biases-in-our-data">Biases in Our Data</h2>
+<section id="non-uniform-distribution-of-observations" class="level5">
+<h5 class="anchored" data-anchor-id="non-uniform-distribution-of-observations">Non-Uniform Distribution of Observations</h5>
+<p>An important thing to note about our data set is that the number of observations we have for each subcategory is not uniform. For example, consider the “Genres” column. Here is a plot for the distribution of observation across the top 5 genres.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can observe that the “Action” genre contains the most data points, almost half of the entire data set. Hence, for any conclusion we make from the data based on the graphs where action comes out to be the most popular or most liked genre, we need to factor in this confounding variable of the number of observations.</p>
+<p>Hence, most of the analysis we present in our shiny app is on data subsetting to the user’s needs. Also, we provide quantile analysis through box plots and base our conclusion on averages rather than the face value of data to mitigate the effect of such confounding variables.</p>
+<p>We can further substantiate the argument by the following plot:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The plot clearly shows that the actual number of people who consider a particular anime to be their favorite has little correlation with the average rating that the show has on the website.</p>
+</section>
+<section id="subjectivity-in-the-observations" class="level5">
+<h5 class="anchored" data-anchor-id="subjectivity-in-the-observations">Subjectivity in The Observations</h5>
+<p>Anime, or any form of artwork for that matter, is subjective. It is challenging to analyze the trends in the observations because there are so few. The “likability” of a show is impossible to pre-determine, and neither is the goal of this project. We strive to analyze the patterns in consumption by the masses that can be extrapolated and used to ensure the optimum reception of our product.</p>
+<p>However, we can assume some form of correlation between factors such as ‘Number of viewers’ and ‘Number of Favorites’ as illustrated below:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="key-questions" class="level2">
+<h2 class="anchored" data-anchor-id="key-questions">Key Questions</h2>
+<p>The primary aim of our analysis is to help curate an optimum broadcasting and advertising plan for a show that the producer wants to release. Here are some of the questions that help us explore this concept:</p>
+<ul>
+<li><p>What season should you release the anime in?</p>
+<ul>
+<li>Does the viewership actually increase during summer time?</li>
+</ul></li>
+<li><p>What day of the week should you broadcast the anime?</p>
+<ul>
+<li><p>During Weekends (Saturdays, Sundays)</p></li>
+<li><p>Just before the weekends (Fridays)</p></li>
+<li><p>Do week days perform better?</p></li>
+</ul></li>
+<li><p>How many episodes should there be per season?</p></li>
+<li><p>What should be the color composition of your poster?</p>
+<ul>
+<li><p>What is the RGB composition for posters of various genres?</p></li>
+<li><p>Do action posters have a higher red color composition?</p></li>
+<li><p>Can we also present claim “Mystery” genre anime to have “Darker” posters?</p></li>
+</ul></li>
+<li><p>For a particular audience, what anime genre performs the best on an average?</p>
+<ul>
+<li>One might assume that Manga performs better on average for a target audience of young adults. However, for a younger audience such as 5-10 year-old children, originals like “Shin-Chan” and “Doraemon” might perform better. Is this actually the case?</li>
+</ul></li>
+<li><p>Which studio has the best performance average?</p></li>
+</ul>
+</section>
+<section id="key-visualizations" class="level2">
+<h2 class="anchored" data-anchor-id="key-visualizations">Key Visualizations</h2>
+<section id="airingpremiere-time" class="level5">
+<h5 class="anchored" data-anchor-id="airingpremiere-time">Airing/Premiere Time</h5>
+<p>In the following plot we can actually observe that the average number of viewers dipped for the shows that were released during the summer months. This is an interesting observation that is counter-intuitive to our original line of thought which was to assume that viewership increases during summers.</p>
+<p>Another reasoning can be the fact that this data is collected from users residing in various countries. Hence, the lengths and the time of the year where these viewers usually enjoy their vacations might be different. Hence, we do not observe a clear trend.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Let us try and find similar trends in the day-of-week variable.</p>
+<p>As Illustrated below, we don’t see a clear trend when we analyse the totality of the data set. However, when we generate a similar plot for a subset of choice, then a trend might emerge, our Shiny App allows for that.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Another reasoning for a lack of trend might be the fact that a good chunk of people often do not consume anime episodes on the day they were aired. Rather, they watch these episodes at their leisure on repeated telecast and recordings. Hence, we might not get a very clear trend.</p>
+<p>However, a fun bit of analysis that we can do to make the same plot as before but with the value points as “Rating” instead of “Viewers”. Here we can observe that Monday and Wednesday have much higher average “Likability” as compared to other days. Our reasoning for this is that people are extremely tired on these particular days and are refreshed by their favorite show, hence tend to give a higher score. However, as mentioned before, this is just a goofy analysis and a clear causation for the trend is not definite.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="number-of-episodes-per-season" class="level5">
+<h5 class="anchored" data-anchor-id="number-of-episodes-per-season">Number of Episodes per Season</h5>
+<p>We could not obtain a clear trend between the number of episodes per season and either of the success parameters (“Rating”, “Number of Viewers”, etc.)</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This was the only variable where we did not expect a clear trend and we got none.</p>
+</section>
+<section id="color-analysis-of-the-posters" class="level5">
+<h5 class="anchored" data-anchor-id="color-analysis-of-the-posters">Color Analysis of the Posters</h5>
+<p>Let us first try and analyze the hypothesis that “Action” genre anime tend to have a greater red color composition.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We do not obtain a clear trend here for a simple reason. Our estimate for red composition numerically has a bias. Even pure white would be registered as having a high red composition. Hence, this analysis is flawed. To obtain a simpler analysis we consider Dark and White theme analysis on the posters.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Here, we can observe interesting trends. For example the “Mystery” genre seems to have darker posters at at average (Just like our assumption). While the comedy genre has lighter posters. This enables us to think more on the lines of how light and dark colors affect our psychology and how this fact may be exploited to create a greater demand for our product.</p>
+</section>
+<section id="mode-of-telecast" class="level5">
+<h5 class="anchored" data-anchor-id="mode-of-telecast">Mode of Telecast</h5>
+<p>Now let us see another diagram. The following BoxPlots are comparing the average rating of anime grouped across various airing types.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>From the diagram above it is evident that TV amasses the largest crowd when it comes to Anime broadcasting. This is perhaps due to TV being the traditional airing platform for Anime and the audience having developed a sense of comfort with the same. However, the data does not take into account the fact that some shows are also aired on OTT platforms and uses the umbrella term of ‘TV’ for such shows as well. Hence, it is crucial to know that these platforms also offer a great audience, however, they are not in the scope of our analysis.</p>
+</section>
+<section id="audience-vs-genre-popularity" class="level5">
+<h5 class="anchored" data-anchor-id="audience-vs-genre-popularity">Audience Vs Genre Popularity</h5>
+<p>A natural question that we want to answer is the question of which genre performs the best in various target demographics. And the analysis for the same is present below.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can do a similar analysis but this time with the “Average Viewership” as the criteria. The previous graph tells us more about the “Likability” of a particular genre and this graph gives us a more detailed analysis on how many people would actually end up watching our program should we choose the most popular genre.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="studios-vs-popularity" class="level5">
+<h5 class="anchored" data-anchor-id="studios-vs-popularity">Studios Vs Popularity</h5>
+<p>We also analysed the performance of the top Anime production studios to compare their average viewership over the course of last 10-20 years. Here we observe that “Bones” has the highest average viewership, they are the producers of “Full Metal Alchemist”, the number one performer on our list, and the popular series “My Hero Academia”.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="analysis-from-the-shiny-app" class="level5">
+<h5 class="anchored" data-anchor-id="analysis-from-the-shiny-app">Analysis from the Shiny App</h5>
+<p>Our Shiny App is designed to allow the user to create multiple subsets of the data that we have collected and observe the trends that we have discussed above for that specific chunk of data. For example, we illustrate a graph that illustrates the composition of shows currently airing targeted at the juvenile audience.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ProjectReport_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can clearly see that most of the shows in the market belong to the comedy genre.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Concluding this project, we built an app that would help us make different templates of the preferred combination of various characteristic variables (genre, broadcast day, release season, duration per episode, etc.) to ensure the best response to the new show statistically.</p>
+<p>We understand that no specific combination of the parameters mentioned above would guarantee success for our product. Like most other art forms, anime is highly subjective, so audience perception would differ. However, we analyzed trends in the data that help us exploit natural factors like when people are free and when people like to consume entertainment-based content.</p>
+<p>While analyzing the data in its totality, we came across many exciting trends:</p>
+<ol type="1">
+<li><p>There is no clear trend in the average number of viewers for a show regarding which season the anime was released. Adding to that, we observe that the average number of viewers for shows released during the summer months is slightly lower!&nbsp;</p>
+<p>We found a similar lack of trend in the “Day of the Week” analysis. From this, we concluded that many people actually watch these shows at their leisure, and hence, the release season or airing time doesn’t play a key role in their perception amongst the masses.</p></li>
+<li><p>The “Light and Dark” theme analysis of the posters illustrated how the “Mystery” and&nbsp; “Action” genres have darker posters, and the “Comedy” genre has the lightest posters on average. This shows a correlation between the genre and the mood of the poster since the trend is intuitive. We can conclude that there is a link between a particular genre and the spirit it wants to instill and the color composition of its poster.</p></li>
+<li><p>We observe that TV continues to amass the largest number of viewers and stated that this number is cumulative of traditional TV and other OTT platforms. Hence, we can conclusively say that airing a show on TV ensures the best chance at a larger audience.</p></li>
+</ol>
+<p>This project gives us great insights into the world of Anime. Exploring this universe helps us understand how various population strata react to multiple entertainment content genres and how to optimize the broadcasting and advertising for any product we want to launch in the market.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li><p><a href="https://myanimelist.net/topanime.php">MyAnimeList</a></p></li>
+<li><p><a href="https://library.osu.edu/site/manga/manga-genres/">Manga Genres</a></p></li>
+<li><p><a href="https://beebom.com/anime-types-genres-explained/">Explanation of Manga Genres</a></p></li>
+<li><p><a href="https://en.wikipedia.org/wiki/Anime">Wikipedia page for “Anime”</a></p></li>
+<li><p><a href="https://www.nypl.org/blog/2018/12/27/beginners-guide-manga">A Beginners Guide to Manga</a></p></li>
+<li><p>Fundamentals of Statistics (Volume One); A.M.Gun, M.K.Gupta, B.Dasgupta; The World Press Pvt. Ltd., 2019.</p></li>
+</ol>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
